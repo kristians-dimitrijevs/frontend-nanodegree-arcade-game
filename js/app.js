@@ -1,23 +1,25 @@
+// initial score
 let score = 0;
+// initial number of lives
 let lives = 3;
-// Get the modal
+// modal
 let modal = document.getElementById('myModal');
-
-// Get the button that starts the game again and resets the whole board
+// button that starts the game again and resets the whole board
 let btn = document.getElementById('play-again');
-
-// Get the <span> element that closes the modal
+// span element that closes the modal
 let span = document.getElementsByClassName("close")[0];
 
-// Enemies our player must avoid
+// Enemies player must avoid
 let Enemy = function(x,y, speed) {
     this.x = x;
     this.y = y;
     this.speed = speed;
     this.sprite = 'images/enemy-bug.png'
 };
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
+/**
+ * Updates enemy's position
+ * @param  {number} dt time delta between ticks
+ */
 Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
@@ -25,16 +27,18 @@ Enemy.prototype.update = function(dt) {
 
     this.x += this.speed * dt;
 
-    // https://www.w3schools.com/jsref/jsref_random.asp
+    // randomize speed after first run and reset back to initial position
     if (this.x >= 505) {
         this.x = -60;
         this.speed = 200 + Math.floor((Math.random() * 200) + 1);
     }
 
+    // collision logic
     if (this.x < player.x + 60 && this.x + 60 > player.x && this.y < player.y + 40 && 40 + this.y > player.y) {
 
         player.reset();
         lives -= 1;
+        // game over
         if (lives <= 0) {
             player.reset();
             lives = 3;
@@ -50,12 +54,18 @@ Enemy.prototype.render = function() {
     drawLives()
 };
 
+/**
+ * Displays score
+ */
 function drawScore() {
     ctx.font = '22px Jura';
     ctx.fillStyle = '#000000';
     ctx.fillText('Score: ' + score, 144, 20);
 };
 
+/**
+ * Displays number of lives remaining
+ */
 function drawLives() {
     ctx.font = '22px Jura';
     ctx.fillStyle = '#000000';
@@ -63,14 +73,25 @@ function drawLives() {
 };
 
 
-// Now write your own player class
-
+/**
+ * Player class
+ * @param  {number} x initial player X position
+ * @param  {number} y initial player Y position
+ */
 let Player = function (x,y) {
     this.x = x;
     this.y = y;
     this.sprite = 'images/char-boy.png';
 };
 
+/**
+ * Player's update logic
+ * handles player going offscreen
+ * handles player reaching score area
+ * increments lives for certain score counts
+ * opens victory modal if score reached
+ * @param  {number} dt time delta between ticks
+ */
 Player.prototype.update = function(dt) {
 
     // Keep player on canvas
@@ -98,10 +119,17 @@ Player.prototype.update = function(dt) {
         }
 };
 
+/**
+ * Renders player
+ */
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+/**
+ * Handles input of player movements
+ * @param  {string} arrowKeyPress type of arrow key pressed
+ */
 Player.prototype.handleInput = function (arrowKeyPress) {
     if (arrowKeyPress == 'right') {
         this.x += 101;
@@ -117,7 +145,9 @@ Player.prototype.handleInput = function (arrowKeyPress) {
     }
 };
 
-// Resetting players position
+/**
+ * Resets player to initial position
+ */
 Player.prototype.reset = function() {
     this.x = 202;
     this.y = 404;
@@ -130,6 +160,7 @@ let allEnemies = [new Enemy(0, 60, 80), new Enemy(0, 140, 100), new Enemy(0, 225
 // Place the player object in a variable called player
 let player = new Player(202,404);
 
+// variable to disable movements when the modal dialog is active
 let overlayActive = false;
 
 // This listens for key presses and sends the keys to your
@@ -146,11 +177,16 @@ document.addEventListener('keyup', function(e) {
         83: 'down'
     };
 
+    // only allow inputs when modal is not open
     if (!overlayActive) {
         player.handleInput(allowedKeys[e.keyCode]);
     }
 });
 
+/**
+ * Opens modal dialog
+ * @param  {Boolean} [win=false] whether to show a victory or loss message
+ */
 function openModal(win = false) {
     modal.style.display = 'block';
     if(win) {
@@ -162,7 +198,9 @@ function openModal(win = false) {
     setupModalClose();
 }
 
-// Dismiss the modal
+/**
+ * Sets up listener for modal close button
+ */
 function setupModalClose() {
 
     btn.onclick = function() {
