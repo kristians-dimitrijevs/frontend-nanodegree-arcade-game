@@ -4,6 +4,9 @@
 
 - [Instructions](#instructions)
 - [Contributing](#contributing)
+- [Game instructions](#game instructions)
+- [Controls](#controls)
+
 
 ## Instructions
 
@@ -18,3 +21,25 @@ For detailed instructions on how to get started, check out this [guide](https://
 ## Contributing
 
 This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
+
+## Game instructions
+
+Player has to cross a road and get to the river, without touching bugs.
+
+If player gets to the river, he is rewarded with 10 points.
+
+Player loses 1 life each time the bug has touched you hero.
+
+Player gains 1 life point when they hit 50, 100, 150 points.
+
+Game ends when player reached 200 points or loses all lives.
+
+## Controls
+
+**Move hero up** - 'Up arrow' or 'W';
+
+**Move hero down** - 'Down arrow' or 'S';
+
+**Move hero left** - 'Left arrow' or 'A';
+
+**Move hero right** - 'Right arrow' or 'D';
