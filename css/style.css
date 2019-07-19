@@ -4,10 +4,10 @@ body {
 }
 
 .title {
-  font-size: 24px;
-  font-family: 'Notable', sans-serif;
-  margin-top: 10px;
-  text-shadow: 1px 1px;
+    font-size: 24px;
+    font-family: 'Notable', sans-serif;
+    margin-top: 10px;
+    text-shadow: 1px 1px;
 }
 
 .modal {
