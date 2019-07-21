@@ -107,7 +107,7 @@ Player.prototype.update = function(dt) {
     if (this.y < 0) {
         this.y = 0;
         setTimeout(() => {
-            player.reset();
+            this.reset();
             score += 10;
             if (score === 50 || score === 100 || score === 150) {
                 lives += 1;
@@ -209,7 +209,6 @@ function setupModalClose() {
         score = 0;
         lives = 3;
         overlayActive = false;
-        // Engine.reset();
         allEnemies = [new Enemy(0, 60, 80), new Enemy(0, 140, 100), new Enemy(0, 225, 100)];
     }
 
